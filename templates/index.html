@@ -5,44 +5,31 @@
     <style type="text/css" media="screen">
     </style>
     <script src="{{ url_for('static', filename='src/ace.js') }}" type="text/javascript" ></script>
+    <script src="{{ url_for('static', filename='src/ext-modelist.js') }}" type="text/javascript" ></script>
+    <script src="{{ url_for('static', filename='src/ext-language_tools.js') }}" type="text/javascript" ></script>
     <script src="{{ url_for('static', filename='editor.js') }}" type="text/javascript" ></script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='iconfont/material-icons.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='editor.css') }}" />
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 
 </head>
-<body onkeydown="ctrls_press(event)" >
+<body onkeydown="ctrls_press(event)" onload="init()" >
 <div style="width:100%;height:100%;display:flex;">
 <div class="folderview" id="folderview">
-        <div class="fileitem">
-           <div onclick="openclose(this);"> <i class="material-icons floating">folder_open</i><div class="floating">python</div></div>
-            <ul class="foldercontent">
-                <div class="fileitem" onclick="sendLoadFile('C:/git/python/editor/demo.py');">
-                    <i class="material-icons floating">sort</i><div class="floating">demo.py</div>
-                </div>
-                <div class="fileitem" onclick="tester();">
-                    <i class="material-icons floating">sort</i><div class="floating">test me ;-)</div>
-                </div>
-            </ul>    
+<!--    <div class="parentcenter">
+        <div class="folderviewcenter">
+            updating ...
         </div>
-        <div class="fileitem">
-           <div onclick="openclose(this);"> <i class="material-icons floating">folder_open</i><div class="floating">python</div></div>
-            <ul class="foldercontent">
-                <div class="fileitem">
-                    <i class="material-icons floating">sort</i><div class="floating">miniDLT.py</div>
-                </div>
-                <div class="fileitem">
-                    <i class="material-icons floating">sort</i><div class="floating">miniDLT.py</div>
-                </div>
-            </ul>    
-        </div>
+    </div>-->
 </div>
 <div id="editor">
-def test():
-	pass
+</div>
+</div>
 
-
-}</div>
+<div class="message hideslow" id="message">
+    
+    Helloo ...
+    
 </div>
 
 <div class="hide" id="foldertemplate">
@@ -60,38 +47,5 @@ def test():
 </div>
 
 <!--- <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.1/ace.js"></script> -->
-<script>
-
-document.addEventListener("keydown", function(e) {
-  if ((window.navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)  && e.keyCode == 83) {
-    e.preventDefault();
-        //alert("Ctrl-S pressed");
-        sendSaveFile(currentfile);
-    event.preventDefault();
-    
-    event.stopPropagation();
-    return false;
-    // Process the event here (such as click on submit button)
-  }
-}, false);
-     
-    console.log("Hello Rasmus");
-    console.log(ace);
-    var editor = ace.edit("editor");
-//    editor.setTheme("ace/theme/monokai");
-//    editor.setTheme("ace/theme/twilight");    
-    editor.setTheme("ace/theme/dracula");    
-//    editor.session.setMode("ace/mode/javascript");
-    editor.session.setMode("ace/mode/python");
-    //editor.session.setMode("ace/mode/java");
-
-sendListFile();
-
-function saveMe(){
-   alert(editor.getValue());                                
-}
-
-
-</script>
 </body>
 </html>

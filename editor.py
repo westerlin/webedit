@@ -37,8 +37,8 @@ def subStructure(root,dirs,files,fileList):
         root,dirs,files = next(fileList)
         subfiles = subFiles(root,files)
         print(root)
-        for filename in files:
-            print(filename)
+        #for filename in files:
+        #    print(filename)
         if len(dirs)>0:
             output.append({"name":dirName,"content":subStructure(root,dirs,files,fileList)+subfiles})
         else:
@@ -58,7 +58,7 @@ def editorList():
     print(request.data)
     msgObj = json.loads(request.data)
     fileStructure = createStructure(msgObj["request"]) 
-    print(fileStructure)
+    #print(fileStructure)
     return jsonify({"response":fileStructure})
 
 @app.route('/save', methods=['POST','GET'])

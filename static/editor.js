@@ -1,6 +1,64 @@
 var hosturl = "http://localhost:5002";
 var currentfile = "C:/git/python/newfile.py"
 
+templates = {   "PY":"python","CCP":"c","HTM":"html","HTML":"html",
+                "CSS":"css","JAVA":"Java","JS":"javascript",
+                "MD":"markdown","YML":"yaml","YAML":"YAML","JSON":"JSON",
+                "XML":"xml","SVG":"SVG"
+};
+var editor = null;
+
+var modelist = null;
+
+function init() {
+    modelist = ace.require("ace/ext/modelist");
+    editor = ace.edit("editor");
+//    editor.setTheme("ace/theme/monokai");
+//    editor.setTheme("ace/theme/twilight");    
+    editor.setTheme("ace/theme/dracula");    
+//    editor.session.setMode("ace/mode/javascript");
+    editor.session.setMode("ace/mode/python");
+    //editor.session.setMode("ace/mode/java");
+   editor.setOptions({
+        enableBasicAutocompletion: true,
+        enableSnippets: true,
+        enableLiveAutocompletion: true
+    });    
+  document.addEventListener("keydown", function(e) {
+  if ((window.navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)  && e.keyCode == 83) {
+    e.preventDefault();
+    //alert("Ctrl-S pressed");
+    sendSaveFile(currentfile);
+    e.stopPropagation();
+    return false;
+    // Process the event here (such as click on submit button)
+  }
+}, false);
+
+    showMessage("Updating filelist")
+    sendListFile()
+}
+
+function showMessage(text){
+    obj=document.getElementById("message");
+    if(obj){
+        obj.innerHTML = text;
+        obj.classList.remove("hideslow");
+        setTimeout("hideMessage()",1000);
+    }
+}
+
+function hideMessage(){
+    obj=document.getElementById("message");
+    if(obj){
+        obj.classList.add("hideslow");
+    }    
+}
+
+function saveMe(){
+   alert(editor.getValue());                                
+}
+
 function ctrls_press(event) {
     if (!(event.which == 115 && event.ctrlKey) && !(event.which == 19)) return true;
     alert("Ctrl-S pressed");
@@ -70,8 +128,24 @@ function recLoad(req){
         if (req.status==200){
                 response = JSON.parse(req.responseText);
                 currentfile = response["response"];
+                shortfilename = response["response"].split(/(\\|\/)/g).pop();
+                document.title=shortfilename;
                 editor.setValue(response["content"]);
                 editor.setValue(editor.getValue(), -1) ;
+                
+                mode = modelist.getModeForPath(currentfile);//mode
+                showMessage("Changing to scheme "+mode.name);
+                editor.session.setMode(mode.mode);
+                /*
+                extension = shortfilename.split(/(\.)/g).pop()
+                document.title=shortfilename + " ("+extension+")";
+                filetype = templates[extension.toUpperCase()];
+                //alert(filetype);
+                if (filetype){
+                     editor.session.setMode("ace/mode/"+filetype);
+                     showMessage("Changing to scheme "+filetype);
+                    }
+                */    
                 }
         else {
             alert("Error Message Code:"+req.status+", "+req.statusText);
@@ -81,7 +155,7 @@ function recLoad(req){
 function recSave(req){
         if (req.status==200){
                 response = JSON.parse(req.responseText);
-                alert(response["response"]);
+                showMessage(response["response"]);
                 }
         else {
             alert("Error Message Code:"+req.status+", "+req.statusText);
@@ -137,7 +211,7 @@ function buildFiles(filestructureArray){
                  var content = buildFiles(filestructure["content"]);    
                  output += obj.innerHTML.replace("::foldername::",foldername).replace("::content::",content);
              } else alert("error folder");        
-             console.log(output);
+             //console.log(output);
         } else {
         // file
              var filepath = filestructure["name"];  
@@ -147,7 +221,7 @@ function buildFiles(filestructureArray){
                  output += obj.innerHTML.replace("::filepath::",filepath).replace("::filename::",filename);
              else 
                  alert("error file");
-             console.log(output);
+             //console.log(output);
          }
         }
             return output;              
