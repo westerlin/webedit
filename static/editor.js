@@ -59,6 +59,27 @@ function saveMe(){
    alert(editor.getValue());                                
 }
 
+function toggleFileView(){
+    fileview = document.getElementById("fileviewcontainer");
+    if (fileview.style.width=="0px") {
+        fileview.style.width="300px";
+    } else {
+        fileview.style.width="0px";
+    }
+}
+
+function showFiles() {
+    
+}
+
+function startDrag(){
+    
+}
+
+function doDrag(){
+    
+}
+
 function ctrls_press(event) {
     if (!(event.which == 115 && event.ctrlKey) && !(event.which == 19)) return true;
     alert("Ctrl-S pressed");

@@ -15,14 +15,29 @@
 </head>
 <body onkeydown="ctrls_press(event)" onload="init()" >
 <div style="width:100%;height:100%;display:flex;">
-<div class="folderview" id="folderview">
+<div class="folderview" id="fileviewcontainer">
+    <div class="snip" onclick="toggleFileView();">
+         <div class="innersnip noselect">
+             ||
+         </div>
+    </div>
+    <div id="folderview">
+        
+    </div>
 <!--    <div class="parentcenter">
         <div class="folderviewcenter">
             updating ...
         </div>
     </div>-->
 </div>
-<div id="editor">
+<div class="editorcontainer">
+    <div id="editor">
+    </div>
+    <div class="snip_closed" onclick="toggleFileView();">
+         <div class="innersnip noselect">
+             ||
+         </div>
+    </div>
 </div>
 </div>
 
