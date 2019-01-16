@@ -36,7 +36,7 @@ def subStructure(root,dirs,files,fileList):
     for dirName in dirs:
         root,dirs,files = next(fileList)
         subfiles = subFiles(root,files)
-        print(root)
+        #print(root)
         #for filename in files:
         #    print(filename)
         if len(dirs)>0:

@@ -1,5 +1,7 @@
 var hosturl = "http://localhost:5002";
 var currentfile = "C:/git/python/newfile.py"
+var currentdir = "//dnintra@SSL/DavWWWRoot/dk/om-banken/org/FS/lukketomraade/Documents"
+var currentdir = "C:/git/python"
 
 templates = {   "PY":"python","CCP":"c","HTM":"html","HTML":"html",
                 "CSS":"css","JAVA":"Java","JS":"javascript",
@@ -19,11 +21,8 @@ function init() {
 //    editor.session.setMode("ace/mode/javascript");
     editor.session.setMode("ace/mode/python");
     //editor.session.setMode("ace/mode/java");
-   editor.setOptions({
-        enableBasicAutocompletion: true,
-        enableSnippets: true,
-        enableLiveAutocompletion: true
-    });    
+  //editor.getSession().setUseWrapMode(true);    
+  editorsettings();
   document.addEventListener("keydown", function(e) {
   if ((window.navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)  && e.keyCode == 83) {
     e.preventDefault();
@@ -37,6 +36,19 @@ function init() {
 
     showMessage("Updating filelist")
     sendListFile()
+}
+
+
+function editorsettings(){
+   editor.setOptions({
+        enableBasicAutocompletion: true,
+        enableSnippets: true,
+        enableLiveAutocompletion: true
+   });   
+ editor.getSession().setUseWrapMode(true);
+ //editor.setOption("wrap", 120); 
+ editor.setPrintMarginColumn(100);
+ editor.getSession().setWrapLimitRange(0,100);    
 }
 
 function showMessage(text){
@@ -157,6 +169,9 @@ function recLoad(req){
                 mode = modelist.getModeForPath(currentfile);//mode
                 showMessage("Changing to scheme "+mode.name);
                 editor.session.setMode(mode.mode);
+                editsettings();
+
+
                 /*
                 extension = shortfilename.split(/(\.)/g).pop()
                 document.title=shortfilename + " ("+extension+")";
@@ -211,7 +226,7 @@ function sendSaveFile(file){
         }
 
 function sendListFile(){
-        data = JSON.stringify({"request":"C:/git/python"});
+        data = JSON.stringify({"request":currentdir});
         url = hosturl+"/list";
         if (!ajax(url,data,recList))
             log("Something went wrong when communicating with rest-API..");
